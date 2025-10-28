@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.IO;
+﻿using System.IO;
 class Program
 {
     static void Main()
@@ -15,9 +14,9 @@ class Program
                 continue;
             }
 
-            if (TryReadMatrixFromFile(path, out int[,] matrix))
+            if (TryReadMatrixFromFile(path, out int[,] matrixSystemLinearEquations))
             {
-                double[] solution = SolveGaussian(matrix);
+                double[] solution = SolveGaussian(matrixSystemLinearEquations);
 
                 if (solution != null)
                 {
@@ -40,24 +39,24 @@ class Program
 
        
     }
-    static bool TryReadMatrixFromFile(string filePath, out int[,] matrix)
+    static bool TryReadMatrixFromFile(string filePath, out int[,] matrixSystemLinearEquations)
     {
-        string[] numbers_in_line = File.ReadAllLines(filePath);
-        int rows = numbers_in_line.Length;
+        string[] numbersLine = File.ReadAllLines(filePath);
+        int rows = numbersLine.Length;
 
-        string[] firstLine = numbers_in_line[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string[] firstLine = numbersLine[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
         int cols = firstLine.Length;
 
-        matrix = new int[rows, cols];
+        matrixSystemLinearEquationsSystemLinearEquations = new int[rows, cols];
 
         for (int i = 0; i < rows; i++) {
-            string[] elements = numbers_in_line[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] elements = numbersLine[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
             for (int j = 0; j < cols; j++) {
-                if (!int.TryParse(elements[j], NumberStyles.Any, CultureInfo.InvariantCulture, out int value))
+                if (!int.TryParse(elements[j], out int value))
                 {
                     return false;
                 }
-                else matrix[i, j] = value;
+                else matrixSystemLinearEquations[i, j] = value;
             }
         }
 
@@ -65,60 +64,59 @@ class Program
 
     }
 
-    static double[] SolveGaussian(int[,] matrix) {
-        int n = matrix.GetLength(0);
-        int m = matrix.GetLength(1);
-        double[,] matrix_result = new double[n, m];
-        for (int i = 0; i < n; i++)
+    static double[] SolveGaussian(int[,] matrixSystemLinearEquations) {
+        int numberRows = matrixSystemLinearEquations.GetLength(0);
+        int numberColumns = matrixSystemLinearEquations.GetLength(1);
+        double[,] matrixResult = new double[numberRows, numberColumns];
+        
+        for (int i = 0; i < numberRows; i++)
         {
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < numberColumns; j++)
             {
-                matrix_result[i, j] = matrix[i, j];
+                matrixResult[i, j] = matrixSystemLinearEquations[i, j];
             }
         }
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < numberRows; i++)
+        {
             int maxRow = i;
-            for (int k = i + 1; k < n; k++)
+            for (int k = i + 1; k < numberRows; k++)
             {
-                if (Math.Abs(matrix_result[k, i]) > Math.Abs(matrix_result[maxRow, i]))
+                if (Math.Abs(matrixResult[k, i]) > Math.Abs(matrixResult[maxRow, i]))
                 {
                     maxRow = k;
                 }
             }
             if (maxRow != i)
             {
-                for (int j = 0; j < m;j++)
+                for (int j = 0; j < numberColumns; j++)
                 {
-                    double temp = matrix_result[i, j];
-                    matrix_result[i, j] = matrix_result[maxRow, j];
-                    matrix_result[maxRow, j] = temp;
+                    (matrixResult[i, j], matrixResult[maxRow, j]) = (matrixResult[maxRow, j], matrixResult[i, j]);
                 }
             }
-            if (Math.Abs(matrix_result[i, i]) < 1e-10)
+            if (Math.Abs(matrixResult[i, i]) < 1e-10)
             {
-                return null; 
+                return null;
             }
-            for (int k = i + 1; k < n; k++)
+            for (int k = i + 1; k < numberRows; k++)
             {
-                double factor = matrix_result[k, i] / matrix_result[i, i];
-                for (int j = i; j < m; j++)
+                double factor = matrixResult[k, i] / matrixResult[i, i];
+                for (int j = i; j < numberColumns; j++)
                 {
-                    matrix_result[k, j] -= factor * matrix_result[i, j];
+                    matrixResult[k, j] -= factor * matrixResult[i, j];
                 }
             }
         }
-        double[] solution = new double[n];
-        for (int i = n - 1; i >= 0; i--)
+        
+        double[] solution = new double[numberRows];
+        for (int i = numberRows - 1; i >= 0; i--)
         {
-            solution[i] = matrix_result[i, m - 1];
-            for (int j = i + 1; j < n; j++)
+            solution[i] = matrixResult[i, numberColumns - 1];
+            for (int j = i + 1; j < numberRows; j++)
             {
-                solution[i] -= matrix_result[i, j] * solution[j];
+                solution[i] -= matrixResult[i, j] * solution[j];
             }
-            solution[i] /= matrix_result[i, i];
+            solution[i] /= matrixResult[i, i];
         }
-
         return solution;
-
     }
 }
