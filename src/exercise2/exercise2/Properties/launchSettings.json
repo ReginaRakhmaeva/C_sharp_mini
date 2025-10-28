@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "exercise2": {
+      "commandName": "Project",
+      "commandLineArgs": "args.txt"
+    }
+  }
+}
