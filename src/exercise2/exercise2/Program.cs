@@ -4,33 +4,43 @@ class Program
 {
     static void Main()
     {
-        Console.Write("Enter the path to the file: ");
-        string filePath = Console.ReadLine();
-
-        if (!File.Exists(filePath))
+        while (true)
         {
-            Console.WriteLine("Input error. File isn't exist");
-            return;
-        }
+            Console.Write("Enter path to input file: ");
+            string path = Console.ReadLine() ?? string.Empty;
 
-        int[,] matrix = ReadMatrixFromFile(filePath);
-        if (matrix == null) return;
-
-        double[] solution = SolveGaussian(matrix);
-
-        if (solution != null)
-        {
-            for (int i = 0; i < solution.Length; i++)
+            if (!File.Exists(path))
             {
-                Console.WriteLine($"x{i + 1} = {solution[i]} ");
+                Console.WriteLine("Input error. File isn't exist");
+                continue;
+            }
+
+            if (TryReadMatrixFromFile(path, out int[,] matrix))
+            {
+                double[] solution = SolveGaussian(matrix);
+
+                if (solution != null)
+                {
+                    for (int i = 0; i < solution.Length; i++)
+                    {
+                        Console.WriteLine($"x{i + 1} = {solution[i]:0.###} ");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("The system of linear algebraic equations has no solutions");
+                } 
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Couldn't parse a number. Please, try again");
             }
         }
-        else
-        {
-            Console.WriteLine("The system of linear algebraic equations has no solutions");
-        } 
+
+       
     }
-    static int[,] ReadMatrixFromFile(string filePath)
+    static bool TryReadMatrixFromFile(string filePath, out int[,] matrix)
     {
         string[] numbers_in_line = File.ReadAllLines(filePath);
         int rows = numbers_in_line.Length;
@@ -38,21 +48,23 @@ class Program
         string[] firstLine = numbers_in_line[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
         int cols = firstLine.Length;
 
-        int[,] matrix = new int[rows, cols];
+        matrix = new int[rows, cols];
 
         for (int i = 0; i < rows; i++) {
             string[] elements = numbers_in_line[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
             for (int j = 0; j < cols; j++) {
                 if (!int.TryParse(elements[j], NumberStyles.Any, CultureInfo.InvariantCulture, out int value))
                 {
-                    Console.WriteLine("Couldn't parse a number. Please, try again");
+                    return false;
                 }
                 else matrix[i, j] = value;
             }
         }
 
-        return matrix;
+        return true;
+
     }
+
     static double[] SolveGaussian(int[,] matrix) {
         int n = matrix.GetLength(0);
         int m = matrix.GetLength(1);
