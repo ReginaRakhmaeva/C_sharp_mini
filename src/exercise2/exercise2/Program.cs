@@ -14,9 +14,9 @@ class Program
                 continue;
             }
 
-            if (TryReadMatrixFromFile(path, out int[,] matrixSystemLinearEquations))
+            if (TryReadMatrixFromFile(path, out int[,] SystemLinearEquations))
             {
-                double[] solution = SolveGaussian(matrixSystemLinearEquations);
+                double[] solution = SolveGaussian(SystemLinearEquations);
 
                 if (solution != null)
                 {
@@ -39,7 +39,7 @@ class Program
 
        
     }
-    static bool TryReadMatrixFromFile(string filePath, out int[,] matrixSystemLinearEquations)
+    static bool TryReadMatrixFromFile(string filePath, out int[,] SystemLinearEquations)
     {
         string[] numbersLine = File.ReadAllLines(filePath);
         int rows = numbersLine.Length;
@@ -47,7 +47,7 @@ class Program
         string[] firstLine = numbersLine[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
         int cols = firstLine.Length;
 
-        matrixSystemLinearEquationsSystemLinearEquations = new int[rows, cols];
+        SystemLinearEquations = new int[rows, cols];
 
         for (int i = 0; i < rows; i++) {
             string[] elements = numbersLine[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -56,7 +56,7 @@ class Program
                 {
                     return false;
                 }
-                else matrixSystemLinearEquations[i, j] = value;
+                else SystemLinearEquations[i, j] = value;
             }
         }
 
@@ -64,16 +64,16 @@ class Program
 
     }
 
-    static double[] SolveGaussian(int[,] matrixSystemLinearEquations) {
-        int numberRows = matrixSystemLinearEquations.GetLength(0);
-        int numberColumns = matrixSystemLinearEquations.GetLength(1);
+    static double[] SolveGaussian(int[,] SystemLinearEquations) {
+        int numberRows = SystemLinearEquations.GetLength(0);
+        int numberColumns = SystemLinearEquations.GetLength(1);
         double[,] matrixResult = new double[numberRows, numberColumns];
         
         for (int i = 0; i < numberRows; i++)
         {
             for (int j = 0; j < numberColumns; j++)
             {
-                matrixResult[i, j] = matrixSystemLinearEquations[i, j];
+                matrixResult[i, j] = SystemLinearEquations[i, j];
             }
         }
         for (int i = 0; i < numberRows; i++)
