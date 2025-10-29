@@ -10,7 +10,7 @@ class Program
         {
             if (TryReadMatrixArray(out int[] deck))
             {
-                arrangeCard(deck);
+                ArrangeCard(deck);
                 Console.WriteLine(string.Join(",", deck));
                 break;
             }
@@ -130,7 +130,7 @@ class Program
         }
     }
 
-    static void arrangeCard(int[] deck)
+    static void ArrangeCard(int[] deck)
     {
         int n = deck.Length;
         if (n == 0) return;
