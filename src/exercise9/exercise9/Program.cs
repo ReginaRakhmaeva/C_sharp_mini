@@ -9,6 +9,8 @@ class Program
             if (TryReadMyList(out MyList<int> myList))
             {
                 RunMenu(myList);
+                Console.WriteLine("\nНажмите любую клавишу для выхода...");
+                Console.ReadKey();
                 break;
             }
         }

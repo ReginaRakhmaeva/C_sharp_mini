@@ -28,8 +28,11 @@ class Program
                 else
                 {
                     Console.WriteLine("The system of linear algebraic equations has no solutions");
-                } 
+                }
+                Console.WriteLine("\nНажмите любую клавишу для выхода...");
+                Console.ReadKey();
                 break;
+
             }
             else
             {

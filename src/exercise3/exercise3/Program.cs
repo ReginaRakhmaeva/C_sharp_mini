@@ -12,6 +12,8 @@ class Program
             {
                 ArrangeCard(deck);
                 Console.WriteLine(string.Join(",", deck));
+                Console.WriteLine("\nНажмите любую клавишу для выхода...");
+                Console.ReadKey();
                 break;
             }
             else
@@ -37,7 +39,7 @@ class Program
 
         for (int i = 0; i < parts.Length; i++)
         {
-            if (!int.TryParse(parts[i].Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out deck[i]))
+            if (!int.TryParse(parts[i].Trim(), out deck[i]))
             {
                 deck = Array.Empty<int>();
                 return false;

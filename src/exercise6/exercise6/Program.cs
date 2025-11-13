@@ -13,6 +13,8 @@ class Program
                 Tree tree = new Tree(parent, s);
                 var (len, path) = tree.FindLongestPath();
                 Console.WriteLine($"{len}\n{string.Join(", ", path)}");
+                Console.WriteLine("\nНажмите любую клавишу для выхода...");
+                Console.ReadKey();
                 break;
             }
             else

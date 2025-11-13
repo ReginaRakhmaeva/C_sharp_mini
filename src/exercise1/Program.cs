@@ -29,6 +29,8 @@ class AreaConvexQuadrilateral
         var area2 = AreaTriangleByHeron((x1, y1), (x3, y3), (x4, y4));
         double total = area1 + area2;
         Console.WriteLine("Square = " + total.ToString("0.####"));
+        Console.WriteLine("\nНажмите любую клавишу для выхода...");
+        Console.ReadKey();
     }
     static double Dist((double x,double y) A, (double x,double y) B) =>
         Math.Sqrt((A.x-B.x)*(A.x-B.x) + (A.y-B.y)*(A.y-B.y));

@@ -20,6 +20,8 @@ class Program
                 int countWords = CountingNumberWords(lines, word);
                 PrintInConsol(lines, countWords);
                 PrintInFile(countWords);
+                Console.WriteLine("\nНажмите любую клавишу для выхода...");
+                Console.ReadKey();
                 break;
             }
             

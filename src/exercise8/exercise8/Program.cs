@@ -12,6 +12,8 @@ class Program
             if (TryReadStudent(out List<Student> students, out int groupSearch))
             {
                 PrintStudentSameGroup(students, groupSearch);
+                Console.WriteLine("\nНажмите любую клавишу для выхода...");
+                Console.ReadKey();
                 break;
             }
         }

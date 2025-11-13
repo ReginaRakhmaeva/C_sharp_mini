@@ -13,6 +13,8 @@ class Program
             {
                 double avg = CalculateAverage(products);
                 Console.WriteLine($"{avg:0.###}");
+                Console.WriteLine("\nНажмите любую клавишу для выхода...");
+                Console.ReadKey();
                 break;
             }
             else

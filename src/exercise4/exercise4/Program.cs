@@ -12,6 +12,8 @@ class Program
             {
                 ChangeOrderList(head);
                 PrintList(head);
+                Console.WriteLine("\nНажмите любую клавишу для выхода...");
+                Console.ReadKey();
                 break;
             }
             else
