@@ -18,7 +18,7 @@ class Program
             if (TryReadInputFromFile(path, out string[] lines, out string word))
             {
                 int countWords = CountingNumberWords(lines, word);
-                PrintInConsol(lines, countWords);
+                PrintInConsol(lines, countWords, word);
                 PrintInFile(countWords);
                 Console.WriteLine("\nНажмите любую клавишу для выхода...");
                 Console.ReadKey();
@@ -89,10 +89,11 @@ class Program
         }
         return total;
     }
-    static void PrintInConsol(string[] lines, int countWords) {
+    static void PrintInConsol(string[] lines, int countWords, string word) {
         foreach (string line in lines) { 
             Console.WriteLine(line);
         }
+        Console.WriteLine(word);
         Console.Write(countWords);
     }
     static void PrintInFile(int countWords)
