@@ -74,7 +74,6 @@ class Tree
 {
     public Node[] Nodes;
     public int Root;
-
     public Tree(int[] parent, string s)
     {
         int n = parent.Length;
@@ -119,12 +118,20 @@ class Tree
             }
 
             var candidate = new List<int>();
-            candidate.AddRange(best1);
+            if (best1.Count > 0)
+            {
+                var best1Reversed = new List<int>(best1);
+                best1Reversed.Reverse();
+                candidate.AddRange(best1Reversed);
+            }
             candidate.Add(node);
-            candidate.AddRange(best2.AsEnumerable().Reverse());
+            if (best2.Count > 0)
+            {
+                candidate.AddRange(best2);
+            }
 
             if (candidate.Count > bestPath.Count)
-                bestPath = candidate;
+                bestPath = new List<int>(candidate);
 
             var result = new List<int> { node };
             result.AddRange(best1);
